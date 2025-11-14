@@ -157,16 +157,15 @@ function escapeXml(text) {
     .replace(/'/g, '&apos;');
 }
 
-// Generate XML feed
-function generateXML(articles, pages) {
+// Generate XML feed for blog articles
+function generateBlogXML(articles) {
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n';
   xml += '  <channel>\n';
-  xml += `    <title>Latitudes Online Content Feed</title>\n`;
-  xml += `    <link>${SITE_URL}</link>\n`;
-  xml += `    <description>Blog articles and CMS pages for Doofinder</description>\n\n`;
+  xml += `    <title>Latitudes Online Blog Feed</title>\n`;
+  xml += `    <link>${SITE_URL}/blogs</link>\n`;
+  xml += `    <description>Blog articles for Doofinder</description>\n\n`;
 
-  // Add blog articles
   articles.forEach(article => {
     const url = `${SITE_URL}/blogs/${article.blog.handle}/${article.handle}`;
     const description = cleanContent(article.excerpt || article.contentHtml);
@@ -200,7 +199,21 @@ function generateXML(articles, pages) {
     xml += '    </item>\n\n';
   });
 
-  // Add CMS pages
+  xml += '  </channel>\n';
+  xml += '</rss>';
+
+  return xml;
+}
+
+// Generate XML feed for CMS pages
+function generatePagesXML(pages) {
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n';
+  xml += '  <channel>\n';
+  xml += `    <title>Latitudes Online Pages Feed</title>\n`;
+  xml += `    <link>${SITE_URL}/pages</link>\n`;
+  xml += `    <description>CMS pages for Doofinder</description>\n\n`;
+
   pages.forEach(page => {
     const url = `${SITE_URL}/pages/${page.handle}`;
     const description = cleanContent(page.bodySummary || page.body);
@@ -239,17 +252,30 @@ async function main() {
     const articles = await fetchAllArticles();
     const pages = await fetchAllPages();
 
-    console.log(`\nGenerating XML feed...`);
-    const xml = generateXML(articles, pages);
+    console.log(`\nGenerating XML feeds...`);
+    
+    // Generate blog XML
+    const blogXml = generateBlogXML(articles);
+    const blogOutputPath = 'doofinder-blogs-feed.xml';
+    fs.writeFileSync(blogOutputPath, blogXml);
+    
+    // Generate pages XML
+    const pagesXml = generatePagesXML(pages);
+    const pagesOutputPath = 'doofinder-pages-feed.xml';
+    fs.writeFileSync(pagesOutputPath, pagesXml);
 
-    // Write to file
-    const outputPath = 'doofinder-content-feed.xml';
-    fs.writeFileSync(outputPath, xml);
-
-    console.log(`\n✅ Feed generated successfully!`);
-    console.log(`   File: ${outputPath}`);
-    console.log(`   Total items: ${articles.length + pages.length} (${articles.length} articles, ${pages.length} pages)`);
-    console.log(`   File size: ${(fs.statSync(outputPath).size / 1024 / 1024).toFixed(2)} MB`);
+    console.log(`\n✅ Feeds generated successfully!`);
+    console.log(`\n📝 Blog Feed:`);
+    console.log(`   File: ${blogOutputPath}`);
+    console.log(`   Items: ${articles.length} articles`);
+    console.log(`   Size: ${(fs.statSync(blogOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
+    
+    console.log(`\n📄 Pages Feed:`);
+    console.log(`   File: ${pagesOutputPath}`);
+    console.log(`   Items: ${pages.length} pages`);
+    console.log(`   Size: ${(fs.statSync(pagesOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
+    
+    console.log(`\n📊 Total: ${articles.length + pages.length} items`);
 
   } catch (error) {
     console.error('❌ Error generating feed:', error.message);
