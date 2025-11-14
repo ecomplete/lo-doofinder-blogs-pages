@@ -1,1 +1,22 @@
-
+{
+  "name": "doofinder-feed-generator",
+  "version": "1.0.0",
+  "description": "Generate XML feeds for Doofinder from Shopify blog articles and CMS pages",
+  "main": "scripts/generate-feed.js",
+  "scripts": {
+    "generate": "node scripts/generate-feed.js",
+    "test": "node scripts/generate-feed.js"
+  },
+  "keywords": [
+    "shopify",
+    "doofinder",
+    "xml",
+    "feed",
+    "rss"
+  ],
+  "author": "Latitudes Online",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
