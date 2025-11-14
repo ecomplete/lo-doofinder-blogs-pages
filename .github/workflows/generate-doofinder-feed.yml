@@ -1,0 +1,54 @@
+name: Generate Doofinder Content Feed
+
+on:
+  # Run daily at 2 AM UTC
+  schedule:
+    - cron: '0 2 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+  
+  # Run on push to main (optional)
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/generate-feed.js'
+      - '.github/workflows/generate-doofinder-feed.yml'
+
+jobs:
+  generate-feed:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Generate feed
+        env:
+          SHOPIFY_STORE_DOMAIN: ${{ secrets.SHOPIFY_STORE_DOMAIN }}
+          STOREFRONT_ACCESS_TOKEN: ${{ secrets.STOREFRONT_ACCESS_TOKEN }}
+        run: |
+          cd scripts
+          node generate-feed.js
+          mv doofinder-content-feed.xml ../
+      
+      - name: Commit and push feed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add doofinder-content-feed.xml
+          git diff --staged --quiet || git commit -m "Update Doofinder content feed [skip ci]"
+          git push
+      
+      - name: Upload feed as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: doofinder-feed
+          path: doofinder-content-feed.xml
+          retention-days: 30
