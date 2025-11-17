@@ -315,10 +315,17 @@ function normalizeMetaobject(metaobject, type, { pathSegment } = {}) {
     getFieldValue(lookup, METAOBJECT_FIELD_DEFAULTS.title) ||
     metaobject.handle;
 
-  const description =
-    getFieldValue(lookup, hints.description || []) ||
-    getFieldValue(lookup, METAOBJECT_FIELD_DEFAULTS.description) ||
-    metaobject.fields.map(field => field.value).join(' ');
+  let description;
+  // For shows, if show_description is empty, leave it empty (don't fall back)
+  if (type === 'show') {
+    const showDescription = getFieldValue(lookup, hints.description || []);
+    description = showDescription !== null ? showDescription : '';
+  } else {
+    description =
+      getFieldValue(lookup, hints.description || []) ||
+      getFieldValue(lookup, METAOBJECT_FIELD_DEFAULTS.description) ||
+      metaobject.fields.map(field => field.value).join(' ');
+  }
 
   const link =
     getFieldValue(lookup, hints.link || []) ||
