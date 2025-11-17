@@ -88,12 +88,8 @@ const METAOBJECT_QUERY = `
                 }
               }
               ... on GenericFile {
-                preview {
-                  image {
-                    url
-                    altText
-                  }
-                }
+                url
+                mimeType
               }
               ... on Metaobject {
                 id
@@ -289,8 +285,9 @@ function getImageUrlFromField(field) {
     return ref.image.url;
   }
 
-  if (ref.preview?.image?.url) {
-    return ref.preview.image.url;
+  // GenericFile: check if it's an image by mimeType
+  if (ref.url && ref.mimeType?.startsWith('image/')) {
+    return ref.url;
   }
 
   return null;
