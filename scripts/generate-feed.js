@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 // Configuration
 const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN; // e.g., 'latitudes-online.myshopify.com'
 const STOREFRONT_ACCESS_TOKEN = process.env.STOREFRONT_ACCESS_TOKEN;
@@ -181,6 +183,9 @@ async function fetchAllMetaobjects(type) {
   console.log(`Fetching metaobjects for type "${type}"...`);
 
   while (hasNextPage) {
+    // small wait to give Shopify time to hydrate and to avoid rate limits between types
+    await delay(500);
+
     const response = await fetchShopifyData(METAOBJECT_QUERY, { type, cursor });
     const metaobjects = response.data?.metaobjects;
 
