@@ -125,7 +125,15 @@ async function fetchShopifyData(query, variables = {}) {
     throw new Error(`Shopify API error: ${response.status} ${response.statusText}`);
   }
 
-  return await response.json();
+  const data = await response.json();
+  
+  // Check for GraphQL errors
+  if (data.errors) {
+    const errorMessages = data.errors.map(e => e.message).join('; ');
+    throw new Error(`GraphQL errors: ${errorMessages}`);
+  }
+
+  return data;
 }
 
 // Fetch all articles with pagination
@@ -187,12 +195,14 @@ async function fetchAllMetaobjects(type) {
     await delay(500);
 
     const response = await fetchShopifyData(METAOBJECT_QUERY, { type, cursor });
-    const metaobjects = response.data?.metaobjects;
-
-    if (!metaobjects) {
-      throw new Error(`Shopify response missing metaobjects for type ${type}`);
+    
+    // Log full response for debugging if metaobjects is missing
+    if (!response.data?.metaobjects) {
+      console.error(`Response for type "${type}":`, JSON.stringify(response, null, 2));
+      throw new Error(`Shopify response missing metaobjects for type ${type}. Response: ${JSON.stringify(response)}`);
     }
 
+    const metaobjects = response.data.metaobjects;
     const { edges, pageInfo } = metaobjects;
 
     allMetaobjects = allMetaobjects.concat(edges.map(edge => edge.node));
