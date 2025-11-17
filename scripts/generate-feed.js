@@ -249,16 +249,16 @@ const METAOBJECT_FIELD_DEFAULTS = {
 
 const METAOBJECT_TYPE_HINTS = {
   exhibitor: {
-    title: ['name', 'title'],
-    description: ['bio', 'description', 'summary'],
+    title: ['store_name'],
+    description: ['store_description'],
     link: ['website', 'url', 'link'],
-    image: ['hero_image', 'image', 'logo'],
+    image: ['store_logo_thumbnail', 'store_artwork_image_thumbnail'],
   },
   show: {
-    title: ['title', 'name'],
-    description: ['summary', 'description'],
+    title: ['title'],
+    description: ['show_description'],
     link: ['url', 'link'],
-    image: ['poster', 'image'],
+    image: ['show_thumbnail', 'show_banner'],
   },
 };
 
