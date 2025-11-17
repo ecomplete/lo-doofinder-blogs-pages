@@ -57,3 +57,16 @@ jobs:
           name: doofinder-pages-feed
           path: doofinder-pages-feed.xml
           retention-days: 30
+
+      - name: Upload exhibitors feed as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: doofinder-exhibitors-feed
+          path: doofinder-exhibitors-feed.xml
+          retention-days: 30
+
+      - name: Upload shows feed as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: doofinder-shows-feed
+          path: doofinder-shows-feed.xml
