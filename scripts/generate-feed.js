@@ -473,7 +473,7 @@ async function main() {
       normalizeMetaobject(metaobject, 'exhibitor', { pathSegment: 'exhibitors' })
     );
     const shows = showMetaobjects.map(metaobject =>
-      normalizeMetaobject(metaobject, 'show', { pathSegment: 'shows' })
+      normalizeMetaobject(metaobject, 'show', { pathSegment: 'pages/show' })
     );
 
     console.log(`\nGenerating XML feeds...`);
