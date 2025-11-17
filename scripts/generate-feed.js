@@ -277,8 +277,14 @@ function buildFieldLookup(fields = []) {
 
 function getFieldValue(fieldLookup, keys = []) {
   for (const key of keys) {
-    const value = fieldLookup[key]?.value;
-    if (value) return value;
+    const field = fieldLookup[key];
+    if (field) {
+      // Return value even if empty string, but not if null/undefined
+      const value = field.value;
+      if (value !== null && value !== undefined) {
+        return value;
+      }
+    }
   }
   return null;
 }
