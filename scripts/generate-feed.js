@@ -472,7 +472,7 @@ async function main() {
       fetchAllArticles(),
       fetchAllPages(),
       fetchAllMetaobjects('exhibitor'),
-      fetchAllMetaobjects('shows'), // Shopify metaobject type is 'shows' (plural)
+      fetchAllMetaobjects('shows'), 
     ]);
 
     console.log(`\nNormalizing metaobjects...`);
