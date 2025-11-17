@@ -62,8 +62,51 @@ const PAGES_QUERY = `
   }
 `;
 
+const METAOBJECT_QUERY = `
+  query GetMetaobjects($type: String!, $cursor: String) {
+    metaobjects(first: 100, type: $type, after: $cursor) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          handle
+          type
+          updatedAt
+          fields {
+            key
+            value
+            reference {
+              ... on MediaImage {
+                image {
+                  url
+                  altText
+                }
+              }
+              ... on GenericFile {
+                preview {
+                  image {
+                    url
+                    altText
+                  }
+                }
+              }
+              ... on Metaobject {
+                id
+                handle
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 // Fetch data from Shopify Storefront API
-async function fetchShopifyData(query, cursor = null) {
+async function fetchShopifyData(query, variables = {}) {
   const response = await fetch(`https://${SHOPIFY_STORE_DOMAIN}/api/2024-10/graphql.json`, {
     method: 'POST',
     headers: {
@@ -72,7 +115,7 @@ async function fetchShopifyData(query, cursor = null) {
     },
     body: JSON.stringify({
       query,
-      variables: { cursor },
+      variables,
     }),
   });
 
@@ -92,7 +135,7 @@ async function fetchAllArticles() {
   console.log('Fetching blog articles...');
   
   while (hasNextPage) {
-    const response = await fetchShopifyData(ARTICLES_QUERY, cursor);
+    const response = await fetchShopifyData(ARTICLES_QUERY, { cursor });
     const { edges, pageInfo } = response.data.articles;
     
     allArticles = allArticles.concat(edges.map(edge => edge.node));
@@ -115,7 +158,7 @@ async function fetchAllPages() {
   console.log('Fetching CMS pages...');
   
   while (hasNextPage) {
-    const response = await fetchShopifyData(PAGES_QUERY, cursor);
+    const response = await fetchShopifyData(PAGES_QUERY, { cursor });
     const { edges, pageInfo } = response.data.pages;
     
     allPages = allPages.concat(edges.map(edge => edge.node));
@@ -127,6 +170,35 @@ async function fetchAllPages() {
 
   console.log(`Total pages fetched: ${allPages.length}`);
   return allPages;
+}
+
+// Fetch all metaobjects of a given type with pagination
+async function fetchAllMetaobjects(type) {
+  let allMetaobjects = [];
+  let hasNextPage = true;
+  let cursor = null;
+
+  console.log(`Fetching metaobjects for type "${type}"...`);
+
+  while (hasNextPage) {
+    const response = await fetchShopifyData(METAOBJECT_QUERY, { type, cursor });
+    const metaobjects = response.data?.metaobjects;
+
+    if (!metaobjects) {
+      throw new Error(`Shopify response missing metaobjects for type ${type}`);
+    }
+
+    const { edges, pageInfo } = metaobjects;
+
+    allMetaobjects = allMetaobjects.concat(edges.map(edge => edge.node));
+    hasNextPage = pageInfo.hasNextPage;
+    cursor = pageInfo.endCursor;
+
+    console.log(`Fetched ${allMetaobjects.length} ${type} metaobjects so far...`);
+  }
+
+  console.log(`Total ${type} metaobjects fetched: ${allMetaobjects.length}`);
+  return allMetaobjects;
 }
 
 // Clean HTML content for XML
@@ -155,6 +227,98 @@ function escapeXml(text) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
+}
+
+const METAOBJECT_FIELD_DEFAULTS = {
+  title: ['title', 'name', 'heading'],
+  description: ['description', 'summary', 'bio', 'body'],
+  link: ['link', 'url', 'website', 'cta_url'],
+  image: ['image', 'hero_image', 'poster', 'logo'],
+};
+
+const METAOBJECT_TYPE_HINTS = {
+  exhibitor: {
+    title: ['name', 'title'],
+    description: ['bio', 'description', 'summary'],
+    link: ['website', 'url', 'link'],
+    image: ['hero_image', 'image', 'logo'],
+  },
+  show: {
+    title: ['title', 'name'],
+    description: ['summary', 'description'],
+    link: ['url', 'link'],
+    image: ['poster', 'image'],
+  },
+};
+
+function buildFieldLookup(fields = []) {
+  return fields.reduce((acc, field) => {
+    acc[field.key] = field;
+    return acc;
+  }, {});
+}
+
+function getFieldValue(fieldLookup, keys = []) {
+  for (const key of keys) {
+    const value = fieldLookup[key]?.value;
+    if (value) return value;
+  }
+  return null;
+}
+
+function getImageUrlFromField(field) {
+  if (!field?.reference) return null;
+  const ref = field.reference;
+
+  if (ref.image?.url) {
+    return ref.image.url;
+  }
+
+  if (ref.preview?.image?.url) {
+    return ref.preview.image.url;
+  }
+
+  return null;
+}
+
+function normalizeMetaobject(metaobject, type, { pathSegment } = {}) {
+  const lookup = buildFieldLookup(metaobject.fields);
+  const hints = METAOBJECT_TYPE_HINTS[type] || {};
+  const defaultSegment = pathSegment || (type.endsWith('s') ? type : `${type}s`);
+
+  const title =
+    getFieldValue(lookup, hints.title || []) ||
+    getFieldValue(lookup, METAOBJECT_FIELD_DEFAULTS.title) ||
+    metaobject.handle;
+
+  const description =
+    getFieldValue(lookup, hints.description || []) ||
+    getFieldValue(lookup, METAOBJECT_FIELD_DEFAULTS.description) ||
+    metaobject.fields.map(field => field.value).join(' ');
+
+  const link =
+    getFieldValue(lookup, hints.link || []) ||
+    getFieldValue(lookup, METAOBJECT_FIELD_DEFAULTS.link) ||
+    `${SITE_URL}/${defaultSegment}/${metaobject.handle}`;
+
+  const imageKeys = (hints.image || []).concat(METAOBJECT_FIELD_DEFAULTS.image);
+  let imageUrl = null;
+  for (const key of imageKeys) {
+    if (lookup[key]) {
+      imageUrl = getImageUrlFromField(lookup[key]);
+      if (imageUrl) break;
+    }
+  }
+
+  return {
+    id: `${type}_${metaobject.handle}`,
+    title,
+    description,
+    link,
+    imageUrl,
+    updatedAt: metaobject.updatedAt,
+    type,
+  };
 }
 
 // Generate XML feed for blog articles
@@ -238,6 +402,43 @@ function generatePagesXML(pages) {
   return xml;
 }
 
+// Generate XML feed for metaobjects
+function generateMetaobjectsXML(items, type, { label, pathSegment } = {}) {
+  const labelText = label || type;
+  const linkSegment = pathSegment || labelText.toLowerCase();
+
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n';
+  xml += '  <channel>\n';
+  xml += `    <title>Latitudes Online ${labelText} Feed</title>\n`;
+  xml += `    <link>${SITE_URL}/${linkSegment}</link>\n`;
+  xml += `    <description>${labelText} metaobjects for Doofinder</description>\n\n`;
+
+  items.forEach(item => {
+    xml += '    <item>\n';
+    xml += `      <g:id>${escapeXml(item.id)}</g:id>\n`;
+    xml += `      <title>${escapeXml(item.title)}</title>\n`;
+    xml += `      <link>${escapeXml(item.link)}</link>\n`;
+    xml += `      <description>${escapeXml(cleanContent(item.description))}</description>\n`;
+    xml += `      <g:type>${type}</g:type>\n`;
+
+    if (item.imageUrl) {
+      xml += `      <g:image_link>${escapeXml(item.imageUrl)}</g:image_link>\n`;
+    }
+
+    if (item.updatedAt) {
+      xml += `      <pubDate>${new Date(item.updatedAt).toUTCString()}</pubDate>\n`;
+    }
+
+    xml += '    </item>\n\n';
+  });
+
+  xml += '  </channel>\n';
+  xml += '</rss>';
+
+  return xml;
+}
+
 // Main function
 async function main() {
   try {
@@ -249,8 +450,19 @@ async function main() {
     }
 
     // Fetch data
-    const articles = await fetchAllArticles();
-    const pages = await fetchAllPages();
+    const [articles, pages, exhibitorMetaobjects, showMetaobjects] = await Promise.all([
+      fetchAllArticles(),
+      fetchAllPages(),
+      fetchAllMetaobjects('exhibitor'),
+      fetchAllMetaobjects('show'),
+    ]);
+
+    const exhibitors = exhibitorMetaobjects.map(metaobject =>
+      normalizeMetaobject(metaobject, 'exhibitor', { pathSegment: 'exhibitors' })
+    );
+    const shows = showMetaobjects.map(metaobject =>
+      normalizeMetaobject(metaobject, 'show', { pathSegment: 'shows' })
+    );
 
     console.log(`\nGenerating XML feeds...`);
     
@@ -264,6 +476,22 @@ async function main() {
     const pagesOutputPath = 'doofinder-pages-feed.xml';
     fs.writeFileSync(pagesOutputPath, pagesXml);
 
+    // Generate exhibitors XML
+    const exhibitorsXml = generateMetaobjectsXML(exhibitors, 'exhibitor', {
+      label: 'Exhibitors',
+      pathSegment: 'exhibitors',
+    });
+    const exhibitorsOutputPath = 'doofinder-exhibitors-feed.xml';
+    fs.writeFileSync(exhibitorsOutputPath, exhibitorsXml);
+
+    // Generate shows XML
+    const showsXml = generateMetaobjectsXML(shows, 'show', {
+      label: 'Shows',
+      pathSegment: 'shows',
+    });
+    const showsOutputPath = 'doofinder-shows-feed.xml';
+    fs.writeFileSync(showsOutputPath, showsXml);
+
     console.log(`\n✅ Feeds generated successfully!`);
     console.log(`\n📝 Blog Feed:`);
     console.log(`   File: ${blogOutputPath}`);
@@ -274,8 +502,18 @@ async function main() {
     console.log(`   File: ${pagesOutputPath}`);
     console.log(`   Items: ${pages.length} pages`);
     console.log(`   Size: ${(fs.statSync(pagesOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
+
+    console.log(`\n🎪 Exhibitors Feed:`);
+    console.log(`   File: ${exhibitorsOutputPath}`);
+    console.log(`   Items: ${exhibitors.length} exhibitors`);
+    console.log(`   Size: ${(fs.statSync(exhibitorsOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
+
+    console.log(`\n🎭 Shows Feed:`);
+    console.log(`   File: ${showsOutputPath}`);
+    console.log(`   Items: ${shows.length} shows`);
+    console.log(`   Size: ${(fs.statSync(showsOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
     
-    console.log(`\n📊 Total: ${articles.length + pages.length} items`);
+    console.log(`\n📊 Total: ${articles.length + pages.length + exhibitors.length + shows.length} items`);
 
   } catch (error) {
     console.error('❌ Error generating feed:', error.message);
