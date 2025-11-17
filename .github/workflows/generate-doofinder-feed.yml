@@ -40,7 +40,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add doofinder-blogs-feed.xml doofinder-pages-feed.xml
+          git add doofinder-blogs-feed.xml doofinder-pages-feed.xml doofinder-exhibitors-feed.xml doofinder-shows-feed.xml
           git diff --staged --quiet || git commit -m "Update Doofinder content feeds [skip ci]"
           git push
       
