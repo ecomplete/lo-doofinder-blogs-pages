@@ -470,7 +470,7 @@ async function main() {
     ]);
 
     const exhibitors = exhibitorMetaobjects.map(metaobject =>
-      normalizeMetaobject(metaobject, 'exhibitor', { pathSegment: 'exhibitors' })
+      normalizeMetaobject(metaobject, 'exhibitor', { pathSegment: 'pages/exhibitor' })
     );
     const shows = showMetaobjects.map(metaobject =>
       normalizeMetaobject(metaobject, 'show', { pathSegment: 'pages/show' })
@@ -491,7 +491,7 @@ async function main() {
     // Generate exhibitors XML
     const exhibitorsXml = generateMetaobjectsXML(exhibitors, 'exhibitor', {
       label: 'Exhibitors',
-      pathSegment: 'exhibitors',
+      pathSegment: 'pages/exhibitor',
     });
     const exhibitorsOutputPath = 'doofinder-exhibitors-feed.xml';
     fs.writeFileSync(exhibitorsOutputPath, exhibitorsXml);
@@ -499,7 +499,7 @@ async function main() {
     // Generate shows XML
     const showsXml = generateMetaobjectsXML(shows, 'show', {
       label: 'Shows',
-      pathSegment: 'shows',
+      pathSegment: 'pages/show',
     });
     const showsOutputPath = 'doofinder-shows-feed.xml';
     fs.writeFileSync(showsOutputPath, showsXml);
