@@ -201,6 +201,12 @@ async function fetchAllMetaobjects(type) {
     const metaobjects = response.data.metaobjects;
     const { edges, pageInfo } = metaobjects;
 
+    if (!edges || edges.length === 0) {
+      console.log(`  No ${type} metaobjects in this batch`);
+    } else {
+      console.log(`  Found ${edges.length} ${type} metaobjects in this batch`);
+    }
+
     allMetaobjects = allMetaobjects.concat(edges.map(edge => edge.node));
     hasNextPage = pageInfo.hasNextPage;
     cursor = pageInfo.endCursor;
@@ -469,12 +475,19 @@ async function main() {
       fetchAllMetaobjects('show'),
     ]);
 
+    console.log(`\nNormalizing metaobjects...`);
+    console.log(`  Exhibitors: ${exhibitorMetaobjects.length} fetched`);
+    console.log(`  Shows: ${showMetaobjects.length} fetched`);
+
     const exhibitors = exhibitorMetaobjects.map(metaobject =>
       normalizeMetaobject(metaobject, 'exhibitor', { pathSegment: 'pages/exhibitor' })
     );
     const shows = showMetaobjects.map(metaobject =>
-      normalizeMetaobject(metaobject, 'show', { pathSegment: 'pages/show' })
+      normalizeMetaobject(metaobject, 'show', { pathSegment: 'pages/shows' })
     );
+
+    console.log(`  Exhibitors normalized: ${exhibitors.length}`);
+    console.log(`  Shows normalized: ${shows.length}`);
 
     console.log(`\nGenerating XML feeds...`);
     
@@ -499,7 +512,7 @@ async function main() {
     // Generate shows XML
     const showsXml = generateMetaobjectsXML(shows, 'show', {
       label: 'Shows',
-      pathSegment: 'pages/show',
+      pathSegment: 'pages/shows',
     });
     const showsOutputPath = 'doofinder-shows-feed.xml';
     fs.writeFileSync(showsOutputPath, showsXml);
