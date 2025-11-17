@@ -5,7 +5,7 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 // Configuration
 const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN; // e.g., 'latitudes-online.myshopify.com'
 const STOREFRONT_ACCESS_TOKEN = process.env.STOREFRONT_ACCESS_TOKEN;
-const SITE_URL = 'https://latitudes.online'; // Your public site URL
+const SITE_URL = 'https://latitudes-online.myshopify.com'; // Your public site URL
 
 // GraphQL query for blog articles
 const ARTICLES_QUERY = `
