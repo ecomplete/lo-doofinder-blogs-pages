@@ -492,7 +492,7 @@ async function main() {
       fetchAllPages(),
       fetchAllMetaobjects('exhibitor'),
       fetchAllMetaobjects('shows'),
-      fetchAllMetaobjects('artists'), 
+      fetchAllMetaobjects('artist'), 
     ]);
 
     console.log(`\nNormalizing metaobjects...`);
