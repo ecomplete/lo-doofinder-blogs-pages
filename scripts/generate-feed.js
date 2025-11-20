@@ -266,6 +266,12 @@ const METAOBJECT_TYPE_HINTS = {
     link: ['url', 'link'],
     image: ['show_thumbnail', 'show_banner'],
   },
+  artist: {  
+    title: ['artist_name', 'name'],  
+    description: ['artist_bio', 'bio', 'description'],
+    link: ['website', 'url', 'link'],
+    image: ['artist_headshot','artist_thumbnail', 'profile_image', 'image'],
+  },
 };
 
 function buildFieldLookup(fields = []) {
@@ -485,12 +491,14 @@ async function main() {
       fetchAllArticles(),
       fetchAllPages(),
       fetchAllMetaobjects('exhibitor'),
-      fetchAllMetaobjects('shows'), 
+      fetchAllMetaobjects('shows'),
+      fetchAllMetaobjects('artists'), 
     ]);
 
     console.log(`\nNormalizing metaobjects...`);
     console.log(`  Exhibitors: ${exhibitorMetaobjects.length} fetched`);
     console.log(`  Shows: ${showMetaobjects.length} fetched`);
+    console.log(`  Artists: ${artistMetaobjects.length} fetched`);
 
     const exhibitors = exhibitorMetaobjects.map(metaobject =>
       normalizeMetaobject(metaobject, 'exhibitor', { pathSegment: 'pages/exhibitor' })
@@ -498,9 +506,13 @@ async function main() {
     const shows = showMetaobjects.map(metaobject =>
       normalizeMetaobject(metaobject, 'show', { pathSegment: 'pages/shows' })
     );
+    const artists = artistMetaobjects.map(metaobject =>  // Add these 3 lines
+      normalizeMetaobject(metaobject, 'artist', { pathSegment: 'pages/artist' })
+    );
 
     console.log(`  Exhibitors normalized: ${exhibitors.length}`);
     console.log(`  Shows normalized: ${shows.length}`);
+    console.log(`  Artists normalized: ${artists.length}`);
 
     console.log(`\nGenerating XML feeds...`);
     
@@ -530,6 +542,14 @@ async function main() {
     const showsOutputPath = 'doofinder-shows-feed.xml';
     fs.writeFileSync(showsOutputPath, showsXml);
 
+    // Generate artists XML
+    const artistsXml = generateMetaobjectsXML(artists, 'artist', {
+      label: 'Artists',
+      pathSegment: 'pages/artist',
+    });
+    const artistsOutputPath = 'doofinder-artists-feed.xml';
+    fs.writeFileSync(artistsOutputPath, artistsXml);
+
     console.log(`\n✅ Feeds generated successfully!`);
     console.log(`\n📝 Blog Feed:`);
     console.log(`   File: ${blogOutputPath}`);
@@ -551,7 +571,12 @@ async function main() {
     console.log(`   Items: ${shows.length} shows`);
     console.log(`   Size: ${(fs.statSync(showsOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
     
-    console.log(`\n📊 Total: ${articles.length + pages.length + exhibitors.length + shows.length} items`);
+    console.log(`\n🎨 Artists Feed:`);  // Add emoji and section
+    console.log(`   File: ${artistsOutputPath}`);
+    console.log(`   Items: ${artists.length} artists`);
+    console.log(`   Size: ${(fs.statSync(artistsOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
+
+    console.log(`\n📊 Total: ${articles.length + pages.length + exhibitors.length + shows.length + artists.length} items`);
 
   } catch (error) {
     console.error('❌ Error generating feed:', error.message);
