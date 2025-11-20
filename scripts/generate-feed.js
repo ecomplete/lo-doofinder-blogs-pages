@@ -487,7 +487,7 @@ async function main() {
     }
 
     // Fetch data
-    const [articles, pages, exhibitorMetaobjects, showMetaobjects] = await Promise.all([
+    const [articles, pages, exhibitorMetaobjects, showMetaobjects, artistMetaobjects] = await Promise.all([
       fetchAllArticles(),
       fetchAllPages(),
       fetchAllMetaobjects('exhibitor'),
