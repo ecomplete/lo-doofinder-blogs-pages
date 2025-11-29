@@ -374,5 +374,14 @@
       <pubDate>Wed, 12 Nov 2025 11:02:07 GMT</pubDate>
     </item>
 
+    <item>
+      <g:id>page_curatorlab</g:id>
+      <title>CuratorLab</title>
+      <link>https://latitudes-online.myshopify.com/pages/curatorlab</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Fri, 28 Nov 2025 08:37:49 GMT</pubDate>
+    </item>
+
   </channel>
 </rss>
