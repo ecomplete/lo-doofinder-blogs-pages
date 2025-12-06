@@ -362,7 +362,7 @@
       <link>https://latitudes-online.myshopify.com/pages/anna-award</link>
       <description></description>
       <g:type>cms_page</g:type>
-      <pubDate>Wed, 12 Nov 2025 11:00:33 GMT</pubDate>
+      <pubDate>Fri, 05 Dec 2025 09:28:21 GMT</pubDate>
     </item>
 
     <item>
@@ -381,6 +381,24 @@
       <description></description>
       <g:type>cms_page</g:type>
       <pubDate>Fri, 28 Nov 2025 08:37:49 GMT</pubDate>
+    </item>
+
+    <item>
+      <g:id>page_artistlab</g:id>
+      <title>ArtistLab</title>
+      <link>https://latitudes-online.myshopify.com/pages/artistlab</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Fri, 05 Dec 2025 09:26:07 GMT</pubDate>
+    </item>
+
+    <item>
+      <g:id>page_latitudes-education</g:id>
+      <title>Latitudes Education</title>
+      <link>https://latitudes-online.myshopify.com/pages/latitudes-education</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Fri, 05 Dec 2025 13:50:26 GMT</pubDate>
     </item>
 
   </channel>
