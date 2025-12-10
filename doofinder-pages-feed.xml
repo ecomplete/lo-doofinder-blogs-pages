@@ -357,6 +357,15 @@
     </item>
 
     <item>
+      <g:id>page_interior-art-projects</g:id>
+      <title>Interior Art Projects</title>
+      <link>https://latitudes-online.myshopify.com/pages/interior-art-projects</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Tue, 09 Dec 2025 14:01:51 GMT</pubDate>
+    </item>
+
+    <item>
       <g:id>page_anna-award</g:id>
       <title>ANNA Award</title>
       <link>https://latitudes-online.myshopify.com/pages/anna-award</link>
@@ -393,12 +402,12 @@
     </item>
 
     <item>
-      <g:id>page_latitudes-education</g:id>
-      <title>Latitudes Education</title>
-      <link>https://latitudes-online.myshopify.com/pages/latitudes-education</link>
+      <g:id>page_artist-materials-fund</g:id>
+      <title>Artist Materials Fund</title>
+      <link>https://latitudes-online.myshopify.com/pages/artist-materials-fund</link>
       <description></description>
       <g:type>cms_page</g:type>
-      <pubDate>Fri, 05 Dec 2025 13:50:26 GMT</pubDate>
+      <pubDate>Tue, 09 Dec 2025 12:06:58 GMT</pubDate>
     </item>
 
   </channel>
