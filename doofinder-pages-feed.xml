@@ -357,6 +357,15 @@
     </item>
 
     <item>
+      <g:id>page_projects</g:id>
+      <title>Projects</title>
+      <link>https://latitudes-online.myshopify.com/pages/projects</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Thu, 11 Dec 2025 08:31:11 GMT</pubDate>
+    </item>
+
+    <item>
       <g:id>page_interior-art-projects</g:id>
       <title>Interior Art Projects</title>
       <link>https://latitudes-online.myshopify.com/pages/interior-art-projects</link>
@@ -372,6 +381,15 @@
       <description></description>
       <g:type>cms_page</g:type>
       <pubDate>Wed, 10 Dec 2025 11:50:17 GMT</pubDate>
+    </item>
+
+    <item>
+      <g:id>page_conference-events-venue</g:id>
+      <title>Conference &amp; Events Venue</title>
+      <link>https://latitudes-online.myshopify.com/pages/conference-events-venue</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Thu, 11 Dec 2025 07:44:41 GMT</pubDate>
     </item>
 
     <item>
@@ -417,6 +435,15 @@
       <description></description>
       <g:type>cms_page</g:type>
       <pubDate>Tue, 09 Dec 2025 12:06:58 GMT</pubDate>
+    </item>
+
+    <item>
+      <g:id>page_latitudes-education</g:id>
+      <title>Latitudes Education</title>
+      <link>https://latitudes-online.myshopify.com/pages/latitudes-education</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Thu, 11 Dec 2025 10:33:38 GMT</pubDate>
     </item>
 
   </channel>
