@@ -446,5 +446,14 @@
       <pubDate>Thu, 11 Dec 2025 10:33:38 GMT</pubDate>
     </item>
 
+    <item>
+      <g:id>page_articles-page</g:id>
+      <title>articles-page</title>
+      <link>https://latitudes-online.myshopify.com/pages/articles-page</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Fri, 12 Dec 2025 08:19:50 GMT</pubDate>
+    </item>
+
   </channel>
 </rss>
