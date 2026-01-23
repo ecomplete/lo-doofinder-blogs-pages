@@ -459,9 +459,18 @@
       <g:id>page_become-an-exhibitor</g:id>
       <title>Become an Exhibitor</title>
       <link>https://latitudes-online.myshopify.com/pages/become-an-exhibitor</link>
-      <description>Join the growing and much-loved Latitudes community Scroll Latitudes Online is a global platform for art from Africa. The platform has been viewed ...</description>
+      <description></description>
       <g:type>cms_page</g:type>
-      <pubDate>Fri, 16 Jan 2026 09:51:36 GMT</pubDate>
+      <pubDate>Thu, 22 Jan 2026 12:54:00 GMT</pubDate>
+    </item>
+
+    <item>
+      <g:id>page_curatorlab-page</g:id>
+      <title>curatorlab-page</title>
+      <link>https://latitudes-online.myshopify.com/pages/curatorlab-page</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Thu, 22 Jan 2026 09:58:20 GMT</pubDate>
     </item>
 
   </channel>
