@@ -313,7 +313,7 @@
 
     <item>
       <g:id>page_data-sharing-opt-out</g:id>
-      <title>Your privacy choices</title>
+      <title>Your Privacy Choices</title>
       <link>https://latitudes-online.myshopify.com/pages/data-sharing-opt-out</link>
       <description>As described in our Privacy Policy, we collect personal information from your interactions with us and our website, including through cookies and s...</description>
       <g:type>cms_page</g:type>
