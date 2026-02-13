@@ -473,5 +473,14 @@
       <pubDate>Thu, 22 Jan 2026 09:58:20 GMT</pubDate>
     </item>
 
+    <item>
+      <g:id>page_podcast-season-2</g:id>
+      <title>Podcast Season 2</title>
+      <link>https://latitudes-online.myshopify.com/pages/podcast-season-2</link>
+      <description></description>
+      <g:type>cms_page</g:type>
+      <pubDate>Thu, 12 Feb 2026 07:05:57 GMT</pubDate>
+    </item>
+
   </channel>
 </rss>
