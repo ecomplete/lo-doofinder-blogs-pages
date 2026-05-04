@@ -268,7 +268,7 @@ const METAOBJECT_TYPE_HINTS = {
   },
   artist: {  
     title: ['artist_name', 'name'],  
-    description: ['artist_bio', 'bio', 'description'],
+    description: ['description', 'artist_bio', 'bio'],
     link: ['website', 'url', 'link'],
     image: ['artist_headshot','artist_thumbnail', 'profile_image', 'image'],
   },
@@ -311,6 +311,32 @@ function getImageUrlFromField(field) {
   return null;
 }
 
+// Extract plain text from Shopify rich text JSON
+function parseRichText(value) {
+  if (!value || typeof value !== 'string') return value;
+  try {
+    const parsed = JSON.parse(value);
+    if (parsed?.type === 'root' && Array.isArray(parsed.children)) {
+      return extractTextFromNodes(parsed.children);
+    }
+  } catch {
+    // Not JSON, return as-is
+  }
+  return value;
+}
+
+function extractTextFromNodes(nodes) {
+  return nodes
+    .map(node => {
+      if (node.type === 'text') return node.value || '';
+      if (Array.isArray(node.children)) return extractTextFromNodes(node.children);
+      return '';
+    })
+    .join('')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 function normalizeMetaobject(metaobject, type, { pathSegment } = {}) {
   const lookup = buildFieldLookup(metaobject.fields);
   const hints = METAOBJECT_TYPE_HINTS[type] || {};
@@ -322,7 +348,6 @@ function normalizeMetaobject(metaobject, type, { pathSegment } = {}) {
     metaobject.handle;
 
   let description;
-  // For shows, if show_description is empty, leave it empty (don't fall back)
   if (type === 'show') {
     const showDescription = getFieldValue(lookup, hints.description || []);
     description = showDescription !== null ? showDescription : '';
@@ -330,8 +355,9 @@ function normalizeMetaobject(metaobject, type, { pathSegment } = {}) {
     description =
       getFieldValue(lookup, hints.description || []) ||
       getFieldValue(lookup, METAOBJECT_FIELD_DEFAULTS.description) ||
-      metaobject.fields.map(field => field.value).join(' ');
+      '';
   }
+  description = parseRichText(description);
 
   const link =
     getFieldValue(lookup, hints.link || []) ||
