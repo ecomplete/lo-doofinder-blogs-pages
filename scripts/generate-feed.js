@@ -268,7 +268,7 @@ const METAOBJECT_TYPE_HINTS = {
   },
   artist: {  
     title: ['artist_name', 'name'],  
-    description: ['description', 'artist_bio', 'bio'],
+    description: ['rich_description', 'artist_bio', 'bio'],
     link: ['website', 'url', 'link'],
     image: ['artist_headshot','artist_thumbnail', 'profile_image', 'image'],
   },
