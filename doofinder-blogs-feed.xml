@@ -636,7 +636,7 @@
       <link>https://latitudes-online.myshopify.com/blogs/articles/the-fragility-of-memory-archaeology-preservation-and-the-construction-of-identitymory</link>
       <description>Cultural Foundations is an invitation to that excavation, a body of work that asks collectors, curators, institutions, and governments to look not just at what is on the surface but at the layers underneath.</description>
       <g:type>blog_article</g:type>
-      <g:image_link>https://cdn.shopify.com/s/files/1/0747/7261/1293/articles/screenshot-1226_cfea0aa5-c695-43f7-80ca-789c2d0db7b3.png?v=1784023733</g:image_link>
+      <g:image_link>https://cdn.shopify.com/s/files/1/0747/7261/1293/articles/screenshot-1226_ff03159f-b14c-4c74-ae46-bea5feeb4497.png?v=1786094920</g:image_link>
       <pubDate>Tue, 09 Jun 2026 22:00:00 GMT</pubDate>
       <author>Latitudes Editorial</author>
       <category>Art News</category>
@@ -764,6 +764,19 @@
       <category>Articles</category>
       <category>Features</category>
       <category>Interviews</category>
+    </item>
+
+    <item>
+      <g:id>blog_cultural-foundations-ii-the-evidence-of-who-we-are</g:id>
+      <title>Cultural Foundations II: The Evidence of Who We Are</title>
+      <link>https://latitudes-online.myshopify.com/blogs/articles/cultural-foundations-ii-the-evidence-of-who-we-are</link>
+      <description>Gbolahan Ayoola explores Yoruba history, material culture, Ifá corroboration, and the Ita Yemoo excavations in Ile-Ife. Read the full article.</description>
+      <g:type>blog_article</g:type>
+      <g:image_link>https://cdn.shopify.com/s/files/1/0747/7261/1293/articles/Chronology_disrupted_2024.png?v=1786095148</g:image_link>
+      <pubDate>Thu, 06 Aug 2026 22:00:00 GMT</pubDate>
+      <author>Latitudes Editorial</author>
+      <category>Articles</category>
+      <category>Features</category>
     </item>
 
   </channel>
