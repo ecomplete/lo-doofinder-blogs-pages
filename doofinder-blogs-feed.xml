@@ -779,5 +779,18 @@
       <category>Features</category>
     </item>
 
+    <item>
+      <g:id>blog_rmb-talent-unlocked-programme-now-open</g:id>
+      <title>RMB Talent Unlocked Programme Now Open</title>
+      <link>https://latitudes-online.myshopify.com/blogs/art-news/rmb-talent-unlocked-programme-now-open</link>
+      <description>Applications are open for the 2026 RMB Talent Unlocked Programme. Emerging South African artists aged 18–35 can apply for mentorship and studio space.</description>
+      <g:type>blog_article</g:type>
+      <g:image_link>https://cdn.shopify.com/s/files/1/0747/7261/1293/articles/Talent_Unlocked_Insta_f9d7d468-76e4-4b2d-b6ea-78cc6959f7c1.png?v=1786544402</g:image_link>
+      <pubDate>Tue, 11 Aug 2026 22:00:00 GMT</pubDate>
+      <author>Latitudes Editorial</author>
+      <category>Art News</category>
+      <category>Features</category>
+    </item>
+
   </channel>
 </rss>
