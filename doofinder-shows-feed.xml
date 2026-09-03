@@ -131,5 +131,15 @@
       <pubDate>Thu, 09 Jul 2026 06:09:16 GMT</pubDate>
     </item>
 
+    <item>
+      <g:id>show_test-show-artist</g:id>
+      <title>Test Show Artist</title>
+      <link>https://latitudes-online.myshopify.com/pages/shows/test-show-artist</link>
+      <description>Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.Tip: Use search above for large lists, or select directly here. Hold Ctrl/Cmd to multi-select.</description>
+      <g:type>show</g:type>
+      <g:image_link>https://cdn.shopify.com/s/files/1/0747/7261/1293/files/temp_1788345425_670b1460.jpg?v=1788345479</g:image_link>
+      <pubDate>Wed, 02 Sep 2026 10:37:59 GMT</pubDate>
+    </item>
+
   </channel>
 </rss>
