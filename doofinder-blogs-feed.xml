@@ -874,5 +874,33 @@
       <category>Features</category>
     </item>
 
+    <item>
+      <g:id>blog_how-art-stokvels-can-change-who-gets-to-own-art</g:id>
+      <title>How Art Stokvels Can Change Who Gets To Own Art</title>
+      <link>https://latitudes-online.myshopify.com/blogs/articles/how-art-stokvels-can-change-who-gets-to-own-art</link>
+      <description>Kemiso Yasmine Wessie explores how the stokvel economy and flexible payment models are democratising contemporary art collecting in South Africa.</description>
+      <g:type>blog_article</g:type>
+      <g:image_link>https://cdn.shopify.com/s/files/1/0747/7261/1293/articles/1_35b4245a-de95-44c1-aa0f-b9856376d619.jpg?v=1789561849</g:image_link>
+      <pubDate>Tue, 15 Sep 2026 22:00:00 GMT</pubDate>
+      <author>Latitudes Editorial</author>
+      <category>Articles</category>
+      <category>Collecting</category>
+      <category>Features</category>
+    </item>
+
+    <item>
+      <g:id>blog_collector-interview-with-bakang-mputle-of-lehumo-art-collective</g:id>
+      <title>Collector Interview with Bakang Mputle of Lehumo Art Collective</title>
+      <link>https://latitudes-online.myshopify.com/blogs/interviews/collector-interview-with-bakang-mputle-of-lehumo-art-collective</link>
+      <description>Bakang Mputle discusses communal art ownership through a stokvel, living with emerging African art, and collecting on a budget. Read the full interview.</description>
+      <g:type>blog_article</g:type>
+      <g:image_link>https://cdn.shopify.com/s/files/1/0747/7261/1293/articles/084e7541-b53c-4f79-acc9-cd2535443d7a.jpg?v=1789561856</g:image_link>
+      <pubDate>Tue, 15 Sep 2026 22:00:00 GMT</pubDate>
+      <author>Latitudes Editorial</author>
+      <category>Collecting</category>
+      <category>Features</category>
+      <category>Interviews</category>
+    </item>
+
   </channel>
 </rss>
